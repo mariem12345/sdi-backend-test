@@ -5,24 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Artist extends Model
+class Track extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'spotify_id',
         'name',
-        'genres',
+        'duration_ms',
+        'explicit',
         'popularity',
-        'followers',
+        'preview_url',
         'external_url',
-        'images'
+        'artists',
+        'album'
     ];
 
     protected $casts = [
-        'genres' => 'array',
-        'images' => 'array',
+        'artists' => 'array',
+        'album' => 'array',
+        'explicit' => 'boolean',
+        'duration_ms' => 'integer',
         'popularity' => 'integer',
-        'followers' => 'integer',
     ];
 }
