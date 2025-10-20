@@ -1,217 +1,182 @@
-
-# Spotify API - Laravel REST API
+# 🎵 Spotify API - Laravel REST API
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel" alt="Laravel 11">
+  <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php" alt="PHP 8.2">
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql" alt="MySQL 8.0">
+  <img src="https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker" alt="Docker">
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis" alt="Redis">
 </p>
 
-## About Spotify API
+## 🎯 About Spotify API
 
-A complete RESTful API built with Laravel 11 for managing Spotify artist data with full CRUD operations, search, filtering, and automatic documentation.
+A complete RESTful API built with **Laravel 11** that integrates with the **Spotify Web API** to provide artist and track information. Features full CRUD operations, search, recommendations, and automatic API documentation.
 
-## 🚀 Features
+## ✨ Features
 
-- Complete REST API for artists
-- Automatic API documentation with Scramble
-- MySQL database with migrations
-- Advanced search and filtering
-- Pagination
-- Input validation
-- Error handling
-- PHPUnit tests
-- PHP 8.2+ with attributes
+- ✅ **Complete REST API** for artists and tracks
+- ✅ **Spotify Web API Integration** with real-time data
+- ✅ **Automatic API Documentation** with Scramble
+- ✅ **Dockerized Environment** for easy setup
+- ✅ **Full CRUD Operations** with local storage
+- ✅ **Advanced Search & Filtering**
+- ✅ **Recommendations System**
+- ✅ **Redis Caching** for performance
+- ✅ **Comprehensive Error Handling**
+- ✅ **PHPUnit Tests** with database testing
+- ✅ **PHP 8.2+** with modern features
+
+## 🛠️ Tech Stack
+
+- **Backend**: Laravel 11, PHP 8.2
+- **Database**: MySQL 8.0, Redis
+- **Cache**: Redis
+- **Documentation**: Scramble
+- **Containerization**: Docker & Docker Compose
+- **Testing**: PHPUnit, HTTP Mocking
 
 ## 📋 Requirements
 
-- PHP 8.2+
-- Composer 2.5+
-- MySQL 5.7+
-- Git
+- Docker
+- Docker Compose
+- Spotify Developer Account (for API credentials)
 
-## ⚡ Installation
+## 🚀 Quick Installation
 
-### 1. Clone the repository
+### 1. Clone and Setup
+
 ```bash
-git clone https://github.com/your-username/spotify-api.git
+# Clone the repository
+git clone <repository-url>
 cd spotify-api
-```
-### 2. Install dependencies
-```bash
-composer install
-```
-### 3. Configure environment
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-### 4. Configure database
-Edit the .env file:
 
-```bash
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=spotify_api
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
-### 5. Create database
-```sql
-CREATE DATABASE spotify_api;
-```
-### 6. Run migrations and seeders
-```bash
-php artisan migrate --seed
-```
-### 7. Install frontend dependencies (optional)
-```bash
-npm install
-```
-### 8. Start the development server
-```bash
-# Backend only
-php artisan serve
+# Run the automatic setup script
+chmod +x crear-setup.sh
+./crear-setup.sh
+2. Manual Installation
+bash
+# 1. Create project structure
+mkdir spotify-api && cd spotify-api
 
-# Frontend with hot reload (optional)
-npm run dev
-```
-The application will be available at: http://localhost:8000
+# 2. Start Docker containers
+docker-compose up -d --build
 
-🧪 Testing
-Run Tests
-```bash
-# Run all tests
-php artisan test
-```
-## Test Structure
-```text
-tests/
-├── Unit/
-│   ├── ArtistTest.php
-│   └── ExampleTest.php
-└── Feature/
-    ├── ArtistControllerTest.php
-    └── ExampleTest.php
-```
-## 📚 API Documentation
-### Interactive Documentation
-Access the automatic API documentation at:
-http://localhost:8000/docs/api
+# 3. Install Laravel and dependencies
+docker-compose exec app composer create-project laravel/laravel . --prefer-dist
+docker-compose exec app composer require dedoc/scramble guzzlehttp/guzzle
 
-### 📚 API Endpoints
+# 4. Configure environment
+cp .env.docker .env
+docker-compose exec app php artisan key:generate
 
-#### 🎵 Artists Endpoints
+# 5. Run migrations
+docker-compose exec app php artisan migrate
 
-| Method | Endpoint                          | Description                  | Parameters                                                  |
-|--------|----------------------------------|------------------------------|-------------------------------------------------------------|
-| GET    | /api/artists                     | List all artists             | search, genre, popular, page, per_page                     |
-| POST   | /api/artists                     | Create a new artist          | spotify_id, name, genres, popularity, followers, image_url, spotify_url |
-| GET    | /api/artists/{id}                | Get specific artist          | -                                                           |
-| PUT    | /api/artists/{id}                | Update artist                | name, genres, popularity, followers, image_url, spotify_url |
-| DELETE | /api/artists/{id}                | Delete artist                | -                                                           |
-| GET    | /api/artists/popularity/range    | Filter by popularity range   | min, max                                                    |
+# 6. Generate documentation
+docker-compose exec app php artisan scramble:generate
+3. Configure Spotify API
+Get Spotify Credentials:
 
-#### Query Parameters
+Visit Spotify Developer Dashboard
 
-| Parameter | Type    | Description                    | Example             |
-|-----------|---------|--------------------------------|------------------- |
-| search    | string  | Search by artist name          | ?search=pitbull    |
-| genre     | string  | Filter by genre               | ?genre=pop         |
-| popular   | boolean | Order by popularity            | ?popular=true      |
-| page      | integer | Page number                    | ?page=2            |
-| per_page  | integer | Items per page                 | ?per_page=20       |
-| min       | integer | Minimum popularity (0-100)     | ?min=80            |
-| max       | integer | Maximum popularity (0-100)     | ?max=95            |
+Create a new app
 
-### 💡 Usage Examples
-Create an Artist
-```bash
-curl -X POST http://localhost:8000/api/artists \
+Copy Client ID and Client Secret
+
+Update Environment:
+
+bash
+# Edit .env file
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+Restart Application:
+
+bash
+docker-compose restart app
+🔐 HTTPS Setup with ngrok (Required for Spotify Callback)
+Important: Spotify requires HTTPS for callback URLs. Use ngrok to create a secure tunnel:
+
+Install and Configure ngrok
+bash
+# Install ngrok (macOS with Homebrew)
+brew install ngrok/ngrok/ngrok
+
+# Or download from: https://ngrok.com/download
+
+# Create free account and get authtoken
+ngrok config add-authtoken YOUR_AUTH_TOKEN
+Start ngrok and Configure Spotify
+bash
+# Start ngrok tunnel
+ngrok http 8000
+
+# This will provide a URL like: https://abc1-123-45-67-89.ngrok-free.app
+Update Spotify Developer Dashboard
+Go to your Spotify App Settings
+
+Add the ngrok URL as Redirect URI:
+
+text
+https://your-subdomain.ngrok-free.app/auth/callback
+Update your .env file:
+
+env
+SPOTIFY_REDIRECT_URI=https://your-subdomain.ngrok-free.app/auth/callback
+APP_URL=https://your-subdomain.ngrok-free.app
+Alternative: Script for Automatic ngrok Setup
+bash
+# Run the ngrok setup script
+chmod +x setup-ngrok.sh
+./setup-ngrok.sh
+🌐 Access Points
+API: http://localhost:8000
+
+HTTPS API (via ngrok): https://your-subdomain.ngrok-free.app
+
+Documentation: http://localhost:8000/docs
+
+PHPMyAdmin: http://localhost:8080
+
+📚 API Documentation
+Interactive Documentation
+Access automatic API documentation at: http://localhost:8000/docs
+
+🎵 Artists Endpoints
+Method	Endpoint	Description	Parameters
+GET	/api/artists	Search artists	query, limit
+GET	/api/artists/{id}	Get artist by Spotify ID	-
+GET	/api/artists/{id}/top-tracks	Get artist's top tracks	country
+POST	/api/artists/local	Save artist locally	spotify_id
+DELETE	/api/artists/local/{id}	Remove artist from local DB	-
+🎶 Tracks Endpoints
+Method	Endpoint	Description	Parameters
+GET	/api/tracks	Search tracks	query, limit
+GET	/api/tracks/{id}	Get track by Spotify ID	-
+GET	/api/tracks/recommendations	Get track recommendations	seed_artists, seed_tracks, limit
+POST	/api/tracks/local	Save track locally	spotify_id
+DELETE	/api/tracks/local/{id}	Remove track from local DB	-
+💡 Usage Examples
+Search Artists
+bash
+curl "http://localhost:8000/api/artists?query=metallica&limit=5"
+Get Artist Details
+bash
+curl "http://localhost:8000/api/artists/0TnOYISbd1XYRBk9myaseg"
+Get Top Tracks
+bash
+curl "http://localhost:8000/api/artists/0TnOYISbd1XYRBk9myaseg/top-tracks?country=US"
+Search Tracks
+bash
+curl "http://localhost:8000/api/tracks?query=bohemian+rhapsody&limit=5"
+Get Recommendations
+bash
+curl "http://localhost:8000/api/tracks/recommendations?seed_artists=0TnOYISbd1XYRBk9myaseg&limit=10"
+Save Artist Locally
+bash
+curl -X POST "http://localhost:8000/api/artists/local" \
   -H "Content-Type: application/json" \
-  -H "Accept: application/json" \
-  -d '{
-    "spotify_id": "0TnOYISbd1XYRBk9myaseg",
-    "name": "Pitbull",
-    "genres": ["pop", "latin", "dance"],
-    "popularity": 85,
-    "followers": 15872345,
-    "image_url": "https://i.scdn.co/image/ab6761610000e5ebd42a27db3286b58553da8858",
-    "spotify_url": "https://open.spotify.com/artist/0TnOYISbd1XYRBk9myaseg"
-  }'
-```
-List Artists with Filters
-```bash
-curl -X GET "http://localhost:8000/api/artists?search=pitbull&genre=pop&popular=true&page=1&per_page=10" \
-  -H "Accept: application/json"
-```
-Get Artist by ID
-```bash
-curl -X GET http://localhost:8000/api/artists/1 \
-  -H "Accept: application/json"
-```
-Update Artist
-```bash
-curl -X PUT http://localhost:8000/api/artists/1 \
-  -H "Content-Type: application/json" \
-  -H "Accept: application/json" \
-  -d '{
-    "name": "Pitbull Updated",
-    "popularity": 90
-  }'
-```
-Filter by Popularity Range
-```bash
-curl -X GET "http://localhost:8000/api/artists/popularity/range?min=80&max=95" \
-  -H "Accept: application/json"
-```
-Delete Artist
-```bash
-curl -X DELETE http://localhost:8000/api/artists/1 \
-  -H "Accept: application/json"
-```
-## 🏗️ Project Structure
-```text
-app/
-├── Models/
-│   └── Artist.php
-├── Http/
-│   └── Controllers/
-│       └── ArtistController.php
-├── Console/
-│   └── Commands/
-database/
-├── factories/
-│   └── ArtistFactory.php
-├── migrations/
-│   └── 2024_01_01_000000_create_artists_table.php
-├── seeders/
-│   └── DatabaseSeeder.php
-routes/
-└── api.php
-tests/
-├── Unit/
-│   └── ArtistTest.php
-└── Feature/
-    └── ArtistControllerTest.php
-config/
-└── scramble.php
-```
-## 💾 Data Model
+  -d '{"spotify_id": "0TnOYISbd1XYRBk9myaseg"}'
 
-### Artist Model
-
-| Field       | Type      | Description                     |
-|------------ |---------- |-------------------------------- |
-| id          | bigint    | Primary key                     |
-| spotify_id  | string    | Unique Spotify identifier       |
-| name        | string    | Artist name                     |
-| genres      | json      | Music genres array              |
-| popularity  | integer   | Popularity score (0-100)       |
-| followers   | integer   | Number of followers             |
-| image_url   | string    | Artist image URL                |
-| spotify_url | string    | Spotify profile URL             |
-| created_at  | timestamp | Creation timestamp              |
-| updated_at  | timestamp | Update timestamp                |
+Run All Tests
+bash
+docker-compose exec app php artisan test
