@@ -8,21 +8,23 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('artists', function (Blueprint $table) {
+        Schema::create('tracks', function (Blueprint $table) {
             $table->id();
             $table->string('spotify_id')->unique();
             $table->string('name');
-            $table->text('genres')->nullable();
+            $table->integer('duration_ms');
+            $table->boolean('explicit');
             $table->integer('popularity')->nullable();
-            $table->integer('followers')->nullable();
+            $table->string('preview_url')->nullable();
             $table->string('external_url')->nullable();
-            $table->json('images')->nullable();
+            $table->json('artists')->nullable();
+            $table->json('album')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('artists');
+        Schema::dropIfExists('tracks');
     }
 };

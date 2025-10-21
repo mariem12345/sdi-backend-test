@@ -13,6 +13,17 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'client_id' => env('SPOTIFY_CLIENT_ID'),
+    'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+    'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
+
+    'scopes' => [
+        'user-read-email',
+        'user-read-private',
+        'playlist-read-private',
+        'playlist-read-collaborative',
+        'user-library-read',
+    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
